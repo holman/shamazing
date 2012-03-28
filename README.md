@@ -36,6 +36,11 @@ $ shamazing 9c2cddfaedaea9689a22e376aa20191041554fe8 -i
 # Search through the shas using `git log --format="%H"` in the current directory.
 $ shamazing -s
 cddfaedaea
+
+# Return the full SHA with --full
+$ shamazing --full
+Longest string: 17705a5a37fbd11017f0d5e053b474dabbbd4022
+Longest integer: 0c4b61fc2c5e7dd5566d42d0de1c431984899ddf
 ```
 
 ### Ruby Interface
