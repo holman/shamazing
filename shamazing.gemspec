@@ -24,6 +24,11 @@ Gem::Specification.new do |s|
   # = MANIFEST =
   s.files = %w[
     README.md
+    Rakefile
+    bin/shamazing
+    lib/shamazing.rb
+    shamazing.gemspec
+    test/test_shamazing.rb
   ]
   # = MANIFEST =
 
