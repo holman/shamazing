@@ -24,7 +24,8 @@ require 'shamazing'
 
 options = {
   :string  => false,
-  :integer => false
+  :integer => false,
+  :full    => false
 }
 
 parser = OptionParser.new do |opts|
@@ -44,6 +45,10 @@ parser = OptionParser.new do |opts|
     options[:integer] = true
   end
 
+  opts.on("-f", "--full", "Display full SHAs instead of snippets") do
+    options[:full] = true
+  end
+
   opts.on("-h", "--help", "Show this message") do
     puts opts
     exit
@@ -58,12 +63,12 @@ if !sha
   shas = `git log --format="%H"`.split("\n")
 
   if options[:string] && !options[:integer]
-    puts Shamazing.string_from_array(shas)
+    puts Shamazing.string_from_array(shas,options[:full])
   elsif options[:integer]
-    puts Shamazing.integer_from_array(shas)
+    puts Shamazing.integer_from_array(shas,options[:full])
   else
-    puts "Longest string: #{Shamazing.string_from_array(shas)}"
-    puts "Longest integer: #{Shamazing.integer_from_array(shas)}"
+    puts "Longest string: #{Shamazing.string_from_array(shas,options[:full])}"
+    puts "Longest integer: #{Shamazing.integer_from_array(shas,options[:full])}"
   end
 else
   if options[:string] && !options[:integer]
