@@ -1,5 +1,5 @@
 class Shamazing
-  VERSION = '0.0.2'
+  VERSION = '0.0.3'
 
   # Finds the longest continuous String in a SHA.
   #
