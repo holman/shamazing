@@ -52,11 +52,25 @@ end
 parser.parse!
 sha = *ARGV
 
-if options[:string] && !options[:integer]
-  puts Shamazing.string(sha)
-elsif options[:integer]
-  puts Shamazing.integer(sha)
+if !sha
+  # Automatically parse this repository's shas.
+  shas = `git log --format="%H"`.split("\n")
+
+  if options[:string] && !options[:integer]
+    puts Shamazing.string_from_array(shas)
+  elsif options[:integer]
+    puts Shamazing.integer_from_array(shas)
+  else
+    puts "Longest string: #{Shamazing.string_from_array(shas)}"
+    puts "Longest integer: #{Shamazing.integer_from_array(shas)}"
+  end
 else
-  puts "Longest string: #{Shamazing.string(sha)}"
-  puts "Longest integer: #{Shamazing.integer(sha)}"
+  if options[:string] && !options[:integer]
+    puts Shamazing.string(sha)
+  elsif options[:integer]
+    puts Shamazing.integer(sha)
+  else
+    puts "Longest string: #{Shamazing.string(sha)}"
+    puts "Longest integer: #{Shamazing.integer(sha)}"
+  end
 end

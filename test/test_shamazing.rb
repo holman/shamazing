@@ -4,6 +4,12 @@ require 'lib/shamazing'
 class TestShamazing < Test::Unit::TestCase
   def setup
     @sha = '9c2cddfaedaea9689a22e376aa20191041554fe8'
+    @shas = %w(
+      fdb31214c2cca29e4f723ad676cddb043bd73986
+      0c4b61fc2c5e7dd5566d42d0de1c431984899ddf
+      9c2cddfaedaea9689a22e376aa20191041554fe8
+      f1b4c270f6746cbfff99bbf0f5a2388f4e509943
+    )
   end
 
   def test_string
@@ -14,8 +20,16 @@ class TestShamazing < Test::Unit::TestCase
     assert_equal 'cddfaedaea', Shamazing.string(@sha.upcase)
   end
 
+  def test_string_from_array
+    assert_equal 'cddfaedaea', Shamazing.string_from_array(@shas)
+  end
+
   def test_integer
     assert_equal 20191041554, Shamazing.integer(@sha)
+  end
+
+  def test_integer_from_array
+    assert_equal 20191041554, Shamazing.integer_from_array(@shas)
   end
 
   def test_cli
@@ -33,5 +47,10 @@ class TestShamazing < Test::Unit::TestCase
   def test_cli_integer
     assert_equal '20191041554', `bin/shamazing #{@sha} -i`.chomp
     assert_equal '20191041554', `bin/shamazing #{@sha} --integer`.chomp
+  end
+
+  def test_cli_git
+    assert_match /Longest string: /, `bin/shamazing`.chomp
+    assert_match /Longest integer: /, `bin/shamazing`.chomp
   end
 end

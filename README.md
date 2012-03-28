@@ -32,6 +32,10 @@ $ shamazing 9c2cddfaedaea9689a22e376aa20191041554fe8 --integer
 
 $ shamazing 9c2cddfaedaea9689a22e376aa20191041554fe8 -i
 20191041554
+
+# Search through the shas using `git log --format="%H"` in the current directory.
+$ shamazing -s
+cddfaedaea
 ```
 
 ### Ruby Interface
@@ -45,6 +49,17 @@ Shamazing.string(sha)
 # => cddfaedaea
 
 Shamazing.integer(sha)
+# => 20191041554
+
+shas = %w(
+  fdb31214c2cca29e4f723ad676cddb043bd73986
+  0c4b61fc2c5e7dd5566d42d0de1c431984899ddf
+  9c2cddfaedaea9689a22e376aa20191041554fe8
+  f1b4c270f6746cbfff99bbf0f5a2388f4e509943
+)
+Shamazing.string_from_array(shas)
+# => cddfaedaea
+Shamazing.integer_from_array(shas)
 # => 20191041554
 ```
 
