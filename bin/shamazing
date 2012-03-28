@@ -1,0 +1,62 @@
+#!/usr/bin/env ruby
+#
+# USAGE
+#
+#   $ shamazing 9c2cddfaedaea9689a22e376aa20191041554fe8
+#   Longest string: cddfaedaea
+#   Longest integer: 20191041554
+#
+#   $ shamazing 9c2cddfaedaea9689a22e376aa20191041554fe8 --string
+#   cddfaedaea
+#
+#   $ shamazing 9c2cddfaedaea9689a22e376aa20191041554fe8 -s
+#   cddfaedaea
+#
+#   $ shamazing 9c2cddfaedaea9689a22e376aa20191041554fe8 --integer
+#   20191041554
+#
+#   $ shamazing 9c2cddfaedaea9689a22e376aa20191041554fe8 -i
+#   20191041554
+
+require 'optparse'
+require 'lib/shamazing'
+
+options = {
+  :string  => false,
+  :integer => false
+}
+
+parser = OptionParser.new do |opts|
+  opts.banner = "Usage: shamazing SHA [options]"
+
+  opts.separator ""
+  opts.separator "  SHA is a SHA1 hash (or other string to check)"
+
+  opts.separator ""
+  opts.separator "Options:"
+
+  opts.on("-s", "--string", "The longest String in this SHA") do
+    options[:string] = true
+  end
+
+  opts.on("-i", "--integer", "The longest Integer in this SHA") do
+    options[:integer] = true
+  end
+
+  opts.on("-h", "--help", "Show this message") do
+    puts opts
+    exit
+  end
+end
+
+parser.parse!
+sha = *ARGV
+
+if options[:string] && !options[:integer]
+  puts Shamazing.string(sha)
+elsif options[:integer]
+  puts Shamazing.integer(sha)
+else
+  puts "Longest string: #{Shamazing.string(sha)}"
+  puts "Longest integer: #{Shamazing.integer(sha)}"
+end
