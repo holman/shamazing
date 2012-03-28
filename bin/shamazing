@@ -19,7 +19,8 @@
 #   20191041554
 
 require 'optparse'
-require 'lib/shamazing'
+require 'rubygems'
+require 'shamazing'
 
 options = {
   :string  => false,
