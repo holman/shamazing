@@ -56,9 +56,9 @@ parser = OptionParser.new do |opts|
 end
 
 parser.parse!
-sha = *ARGV
+sha = ARGV
 
-if !sha
+if sha.empty?
   # Automatically parse this repository's shas.
   shas = `git log --format="%H"`.split("\n")
 
@@ -71,6 +71,8 @@ if !sha
     puts "Longest integer: #{Shamazing.integer_from_array(shas,options[:full])}"
   end
 else
+  sha = sha.first
+
   if options[:string] && !options[:integer]
     puts Shamazing.string(sha)
   elsif options[:integer]
