@@ -25,9 +25,10 @@ require 'shamazing'
 require 'rugged'
 
 options = {
-  :string  => false,
-  :integer => false,
-  :full    => false
+  :string    => false,
+  :integer   => false,
+  :repeating => false,
+  :full      => false
 }
 
 parser = OptionParser.new do |opts|
@@ -47,6 +48,10 @@ parser = OptionParser.new do |opts|
     options[:integer] = true
   end
 
+  opts.on("-r", "--repeating", "The longest repeating string of characters in this SHA") do
+    options[:repeating] = true
+  end
+
   opts.on("-f", "--full", "Display full SHAs instead of snippets") do
     options[:full] = true
   end
@@ -64,23 +69,29 @@ if ARGV.empty?
   repo = Rugged::Repository.new('.')
   shas = repo.walk(repo.head.target).map(&:oid)
 
-  if options[:string] && !options[:integer]
+  if options[:string] && !options[:integer] && !options[:repeating]
     puts Shamazing.string_from_array(shas,options[:full])
-  elsif options[:integer]
+  elsif options[:integer] && !options[:repeating]
     puts Shamazing.integer_from_array(shas,options[:full])
+  elsif options[:repeating]
+    puts Shamazing.repeating_from_array(shas,options[:full])
   else
     puts "Longest string: #{Shamazing.string_from_array(shas,options[:full])}"
     puts "Longest integer: #{Shamazing.integer_from_array(shas,options[:full])}"
+    puts "Longest repeating: #{Shamazing.repeating_from_array(shas,options[:full])}"
   end
 else
   sha = ARGV.first
 
-  if options[:string] && !options[:integer]
+  if options[:string] && !options[:integer] && !options[:repeating]
     puts Shamazing.string(sha)
-  elsif options[:integer]
+  elsif options[:integer] && !options[:repeating]
     puts Shamazing.integer(sha)
+  elsif options[:repeating]
+    puts Shamazing.repeating(sha)
   else
     puts "Longest string: #{Shamazing.string(sha)}"
     puts "Longest integer: #{Shamazing.integer(sha)}"
+    puts "Longest repeating: #{Shamazing.repeating(sha)}"
   end
 end
