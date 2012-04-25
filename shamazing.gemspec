@@ -4,8 +4,8 @@ Gem::Specification.new do |s|
   s.rubygems_version = '1.3.5'
 
   s.name              = 'shamazing'
-  s.version           = '0.0.4'
-  s.date              = '2012-03-28'
+  s.version           = '0.0.5'
+  s.date              = '2012-04-24'
   s.rubyforge_project = 'shamazing'
 
   s.summary     = "Short description used in Gem listings."
@@ -25,6 +25,7 @@ Gem::Specification.new do |s|
 
   # = MANIFEST =
   s.files = %w[
+    Gemfile
     README.md
     Rakefile
     bin/shamazing
