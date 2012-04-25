@@ -18,8 +18,9 @@
 #   $ shamazing 9c2cddfaedaea9689a22e376aa20191041554fe8 -i
 #   20191041554
 
+$:.unshift File.join(File.dirname(__FILE__), *%w[.. lib])
+
 require 'optparse'
-require 'rubygems'
 require 'shamazing'
 require 'rugged'
 
