@@ -21,6 +21,7 @@
 require 'optparse'
 require 'rubygems'
 require 'shamazing'
+require 'rugged'
 
 options = {
   :string  => false,
@@ -59,7 +60,8 @@ parser.parse!
 
 if ARGV.empty?
   # Automatically parse this repository's shas.
-  shas = `git log --format="%H"`.split("\n")
+  repo = Rugged::Repository.new('.')
+  shas = repo.walk(repo.head.target).map(&:oid)
 
   if options[:string] && !options[:integer]
     puts Shamazing.string_from_array(shas,options[:full])

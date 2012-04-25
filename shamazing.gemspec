@@ -21,6 +21,8 @@ Gem::Specification.new do |s|
 
   s.executables = ["shamazing"]
 
+  s.add_dependency('rugged', "~> 0.16.0")
+
   # = MANIFEST =
   s.files = %w[
     README.md
