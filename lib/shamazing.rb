@@ -53,4 +53,33 @@ class Shamazing
       first.to_i
     full ? shas.find{|sha| sha.match(/#{longest}/)} : longest
   end
+
+  # Finds the longest repeating string of characters in a SHA.
+  #
+  # sha - The String SHA to analyze.
+  #
+  # Returns a String.
+  def self.repeating(sha)
+    sha.
+      downcase.
+      scan(/(\w)(\1+)/).
+      collect{|a| a.join}.
+      sort{|a,b| b.length <=> a.length}.
+      first
+  end
+
+  # Finds the longest repeating string of characters in an Array of  SHAs.
+  #
+  # sha - The String SHA to analyze.
+  # full - A Boolean: should we return the full SHA instead of the snippet?
+  #
+  # Returns the longest String.
+  def self.repeating_from_array(shas,full=false)
+    longest = shas.
+      collect{|sha| repeating(sha)}.
+      delete_if{|sha| sha.nil?}.
+      sort{|a,b| b.length <=> a.length}.
+      first
+    full ? shas.find{|sha| sha.match(/#{longest}/)} : longest
+  end
 end

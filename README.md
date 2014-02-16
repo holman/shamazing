@@ -5,8 +5,9 @@ It's **sha**-mazing. Almost as shamazing as that pun.
 
 ## Areas of shamazingness
 
-- Longest string (9c2**cddfaedaea**9689a22e376aa20191041554fe8)
-- Longest integer (9c2cddfaedaea9689a22e376aa**20191041554**fe8)
+- Longest string (9c2**cddfaedaea**9689a22e37aaa20191041554fe8)
+- Longest integer (9c2cddfaedaea9689a22e37aaa**20191041554**fe8)
+- Longest repeating sequence (9c2cddfaedaea9689a22e37**aaa**20191041554fe8)
 
 ## Install
 
@@ -17,21 +18,28 @@ It's **sha**-mazing. Almost as shamazing as that pun.
 ### Command Line Interface
 
 ```sh
-$ shamazing 9c2cddfaedaea9689a22e376aa20191041554fe8
+$ shamazing 9c2cddfaedaea9689a22e37aaa20191041554fe8
 Longest string: cddfaedaea
 Longest integer: 20191041554
+Longest repeating: aaa
 
-$ shamazing 9c2cddfaedaea9689a22e376aa20191041554fe8 --string
+$ shamazing 9c2cddfaedaea9689a22e37aaa20191041554fe8 --string
 cddfaedaea
 
-$ shamazing 9c2cddfaedaea9689a22e376aa20191041554fe8 -s
+$ shamazing 9c2cddfaedaea9689a22e37aaa20191041554fe8 -s
 cddfaedaea
 
-$ shamazing 9c2cddfaedaea9689a22e376aa20191041554fe8 --integer
+$ shamazing 9c2cddfaedaea9689a22e37aaa20191041554fe8 --integer
 20191041554
 
-$ shamazing 9c2cddfaedaea9689a22e376aa20191041554fe8 -i
+$ shamazing 9c2cddfaedaea9689a22e37aaa20191041554fe8 -i
 20191041554
+
+$ shamazing 9c2cddfaedaea9689a22e37aaa20191041554fe8 --repeating
+aaa
+
+$ shamazing 9c2cddfaedaea9689a22e37aaa20191041554fe8 -r
+aaa
 
 # Search through the shas using `git log --format="%H"` in the current directory.
 $ shamazing -s
@@ -41,6 +49,7 @@ cddfaedaea
 $ shamazing --full
 Longest string: 17705a5a37fbd11017f0d5e053b474dabbbd4022
 Longest integer: 0c4b61fc2c5e7dd5566d42d0de1c431984899ddf
+Longest repeating: 17705a5a37fbd11017f0d5e053b474dabbbd4022
 ```
 
 ### Ruby Interface
@@ -48,7 +57,7 @@ Longest integer: 0c4b61fc2c5e7dd5566d42d0de1c431984899ddf
 ```ruby
 require 'shamazing'
 
-sha = '9c2cddfaedaea9689a22e376aa20191041554fe8'
+sha = '9c2cddfaedaea9689a22e37aaa20191041554fe8'
 
 Shamazing.string(sha)
 # => cddfaedaea
@@ -56,16 +65,21 @@ Shamazing.string(sha)
 Shamazing.integer(sha)
 # => 20191041554
 
+Shamazing.repeating(sha)
+# => aaa
+
 shas = %w(
   fdb31214c2cca29e4f723ad676cddb043bd73986
   0c4b61fc2c5e7dd5566d42d0de1c431984899ddf
-  9c2cddfaedaea9689a22e376aa20191041554fe8
+  9c2cddfaedaea9689a22e37aaa20191041554fe8
   f1b4c270f6746cbfff99bbf0f5a2388f4e509943
 )
 Shamazing.string_from_array(shas)
 # => cddfaedaea
 Shamazing.integer_from_array(shas)
 # => 20191041554
+Shamazing.repeating_from_array(shas)
+# => fff
 ```
 
 ## An Holman Project
