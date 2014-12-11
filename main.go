@@ -28,8 +28,8 @@ func repoCommits(repo *git.Repository) []string {
 
 // Find the longest continuous non-digit characters in an array of shas.
 func findLongestString(commits []string) string {
-	// maxLength := 0
-	var longest string
+	var longestChunk string
+	var longestCommit string
 
 	for i := 0; i < len(commits); i++ {
 		// find all string-based parts of the sha
@@ -37,19 +37,26 @@ func findLongestString(commits []string) string {
 		sort.Sort(byLength(strings))
 
 		// prefer the oldest sha to the newest (i.e., the `<=`)
-		if len(longest) <= len(strings[0]) {
-			longest = strings[0]
+		if len(longestChunk) <= len(strings[0]) {
+			longestCommit = commits[i]
+			longestChunk = strings[0]
 		}
 	}
-	return longest
+	return longestCommit
 }
 
 func main() {
 	repo, _ := git.OpenRepository(".")
 	commits := repoCommits(repo)
 
+	const dateLayout = "January 1, 2006"
+
 	fmt.Print("Longest string: ")
-	fmt.Println(findLongestString(commits))
+	longest := findLongestString(commits)
+	fmt.Println(longest)
+	oid, _ := git.NewOid(longest)
+	commit, _ := repo.LookupCommit(oid)
+	fmt.Println(commit.Author().Name, commit.Author().When.Format(dateLayout))
 }
 
 type byLength []string
