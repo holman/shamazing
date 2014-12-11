@@ -45,6 +45,12 @@ func findLongestString(commits []string) string {
 	return longestCommit
 }
 
+func commitFromOid(repo *git.Repository, sha string) *git.Commit {
+	oid, _ := git.NewOid(sha)
+	commit, _ := repo.LookupCommit(oid)
+	return commit
+}
+
 func main() {
 	repo, _ := git.OpenRepository(".")
 	commits := repoCommits(repo)
@@ -54,8 +60,7 @@ func main() {
 	fmt.Print("Longest string: ")
 	longest := findLongestString(commits)
 	fmt.Println(longest)
-	oid, _ := git.NewOid(longest)
-	commit, _ := repo.LookupCommit(oid)
+	commit := commitFromOid(repo, longest)
 	fmt.Println(commit.Author().Name, commit.Author().When.Format(dateLayout))
 }
 
