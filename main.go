@@ -62,6 +62,10 @@ func main() {
 	fmt.Println(longest)
 	commit := commitFromOid(repo, longest)
 	fmt.Println(commit.Author().Name, commit.Author().When.Format(dateLayout))
+
+	fmt.Print("Longest integer: ")
+
+	fmt.Print("Longest repeating segment: ")
 }
 
 type byLength []string
