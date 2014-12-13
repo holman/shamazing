@@ -56,13 +56,11 @@ func findResult(commits []string, regex string) (string, string) {
 }
 
 func printResult(sha string, chunk string, label string) {
-	const dateLayout = "January 1, 2006"
 	commit := commitFromOid(sha)
 	name := commit.Author().Name
-	date := commit.Author().When.Format(dateLayout)
 	sha = strings.Replace(sha, chunk, fmt.Sprintf("\x1b[33;1m%s\x1b[0m", chunk), -1)
 
-	fmt.Printf("%s  %s\t%s\t%s\n", label, sha, name, date)
+	fmt.Printf("%s  %s\t%s\n", label, sha, name)
 }
 
 func main() {
