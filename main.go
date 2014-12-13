@@ -76,9 +76,6 @@ func main() {
 
 	result, chunk = findResult("[0-9]+")
 	printResult(result, chunk, "Longest integer ")
-
-	result, chunk = findResult(`(\\w)(\\1+)`)
-	printResult(result, chunk, "Longest repeat  ")
 }
 
 type byLength []string
