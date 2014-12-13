@@ -42,7 +42,6 @@ func findResult(regex string) (string, string) {
 	var longestMatch string
 
 	for i := 0; i < len(commits); i++ {
-		// find all string-based parts of the sha
 		strings := regexp.MustCompile(regex).FindAllString(commits[i], -1)
 		sort.Sort(byLength(strings))
 
