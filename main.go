@@ -28,25 +28,6 @@ func repoCommits() []string {
 	return oids
 }
 
-// Find the longest continuous non-digit characters in an array of shas.
-func findLongestString(commits []string) string {
-	var longestChunk string
-	var longestCommit string
-
-	for i := 0; i < len(commits); i++ {
-		// find all string-based parts of the sha
-		strings := regexp.MustCompile("[a-f]+").FindAllString(commits[i], -1)
-		sort.Sort(byLength(strings))
-
-		// prefer the oldest sha to the newest (i.e., the `<=`)
-		if len(longestChunk) <= len(strings[0]) {
-			longestCommit = commits[i]
-			longestChunk = strings[0]
-		}
-	}
-	return longestCommit
-}
-
 func commitFromOid(sha string) *git.Commit {
 	oid, _ := git.NewOid(sha)
 	commit, _ := repo.LookupCommit(oid)
