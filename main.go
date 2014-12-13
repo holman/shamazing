@@ -8,8 +8,10 @@ import (
 	"github.com/libgit2/git2go"
 )
 
+var repo *git.Repository
+
 // Grab all the commits for a given repository.
-func repoCommits(repo *git.Repository) []string {
+func repoCommits() []string {
 	head, _ := repo.Head()
 	walk, _ := repo.Walk()
 	oid := head.Target()
@@ -45,22 +47,27 @@ func findLongestString(commits []string) string {
 	return longestCommit
 }
 
-func commitFromOid(repo *git.Repository, sha string) *git.Commit {
+func commitFromOid(sha string) *git.Commit {
 	oid, _ := git.NewOid(sha)
 	commit, _ := repo.LookupCommit(oid)
 	return commit
 }
 
 func main() {
-	repo, _ := git.OpenRepository(".")
-	commits := repoCommits(repo)
+	object, _ := git.OpenRepository(".")
+
+	// I can't just assign this to `repo` above- why? If I try to assign as
+	// `repo, _` then other objects can't share the `repo` object.
+	repo = object
+
+	commits := repoCommits()
 
 	const dateLayout = "January 1, 2006"
 
 	fmt.Print("Longest string: ")
 	longest := findLongestString(commits)
 	fmt.Println(longest)
-	commit := commitFromOid(repo, longest)
+	commit := commitFromOid(longest)
 	fmt.Println(commit.Author().Name, commit.Author().When.Format(dateLayout))
 
 	fmt.Print("Longest integer: ")
