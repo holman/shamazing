@@ -10,6 +10,7 @@ import (
 )
 
 var repo *git.Repository
+var commits []string
 
 // Grab all the commits for a given repository.
 func repoCommits() []string {
@@ -36,7 +37,7 @@ func commitFromOid(sha string) *git.Commit {
 }
 
 // Search through all the commits for a regex.
-func findResult(commits []string, regex string) (string, string) {
+func findResult(regex string) (string, string) {
 	var longestChunk string
 	var longestMatch string
 
@@ -74,15 +75,15 @@ func main() {
 	// `repo, _` then other objects can't share the `repo` object.
 	repo = object
 
-	commits := repoCommits()
+	commits = repoCommits()
 
-	result, chunk := findResult(commits, "[a-f]+")
+	result, chunk := findResult("[a-f]+")
 	printResult(result, chunk, "Longest string  ")
 
-	result, chunk = findResult(commits, "[0-9]+")
+	result, chunk = findResult("[0-9]+")
 	printResult(result, chunk, "Longest integer ")
 
-	result, chunk = findResult(commits, `(\\w)(\\1+)`)
+	result, chunk = findResult(`(\\w)(\\1+)`)
 	printResult(result, chunk, "Longest repeat  ")
 }
 
