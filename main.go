@@ -53,6 +53,12 @@ func commitFromOid(sha string) *git.Commit {
 	return commit
 }
 
+func printResult(commit *git.Commit) {
+	const dateLayout = "January 1, 2006"
+	fmt.Println(commit.Author().Name,
+		commit.Author().When.Format(dateLayout))
+}
+
 func main() {
 	object, _ := git.OpenRepository(".")
 
@@ -62,13 +68,11 @@ func main() {
 
 	commits := repoCommits()
 
-	const dateLayout = "January 1, 2006"
-
 	fmt.Print("Longest string: ")
 	longest := findLongestString(commits)
 	fmt.Println(longest)
-	commit := commitFromOid(longest)
-	fmt.Println(commit.Author().Name, commit.Author().When.Format(dateLayout))
+
+	printResult(commitFromOid(longest))
 
 	fmt.Print("Longest integer: ")
 
