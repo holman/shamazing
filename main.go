@@ -69,12 +69,7 @@ func printResult(sha string, chunk string, label string) {
 }
 
 func main() {
-	object, _ := git.OpenRepository(".")
-
-	// I can't just assign this to `repo` above- why? If I try to assign as
-	// `repo, _` then other objects can't share the `repo` object.
-	repo = object
-
+	repo, _ = git.OpenRepository(".")
 	commits = repoCommits()
 
 	result, chunk := findResult("[a-f]+")
