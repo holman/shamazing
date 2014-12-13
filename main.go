@@ -60,10 +60,8 @@ func printResult(sha string, chunk string, label string) {
 	commit := commitFromOid(sha)
 	name := commit.Author().Name
 	date := commit.Author().When.Format(dateLayout)
-
 	sha = strings.Replace(sha, chunk, fmt.Sprintf("\x1b[33;1m%s\x1b[0m", chunk), -1)
 
-	// commit.Id()
 	fmt.Printf("%s  %s\t%s\t%s\n", label, sha, name, date)
 }
 
