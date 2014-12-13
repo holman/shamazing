@@ -46,7 +46,7 @@ func findResult(commits []string, regex string) (string, string) {
 		sort.Sort(byLength(strings))
 
 		// prefer the oldest sha to the newest (i.e., the `<=`)
-		if len(longestChunk) <= len(strings[0]) {
+		if len(strings) != 0 && len(longestChunk) <= len(strings[0]) {
 			longestMatch = commits[i]
 			longestChunk = strings[0]
 		}
@@ -56,11 +56,15 @@ func findResult(commits []string, regex string) (string, string) {
 }
 
 func printResult(sha string, chunk string, label string) {
-	commit := commitFromOid(sha)
-	name := commit.Author().Name
-	sha = strings.Replace(sha, chunk, fmt.Sprintf("\x1b[33;1m%s\x1b[0m", chunk), -1)
+	if sha == "" || chunk == "" {
+		fmt.Printf("%s  not found\n", label)
+	} else {
+		commit := commitFromOid(sha)
+		name := commit.Author().Name
+		sha = strings.Replace(sha, chunk, fmt.Sprintf("\x1b[33;1m%s\x1b[0m", chunk), -1)
 
-	fmt.Printf("%s  %s\t%s\n", label, sha, name)
+		fmt.Printf("%s  %s\t%s\n", label, sha, name)
+	}
 }
 
 func main() {
@@ -73,11 +77,13 @@ func main() {
 	commits := repoCommits()
 
 	result, chunk := findResult(commits, "[a-f]+")
-	printResult(result, chunk, "Longest string           ")
+	printResult(result, chunk, "Longest string  ")
 
 	result, chunk = findResult(commits, "[0-9]+")
-	printResult(result, chunk, "Longest integer          ")
-	// printResult(commitFromOid(result), "Longest repeating segment")
+	printResult(result, chunk, "Longest integer ")
+
+	result, chunk = findResult(commits, `(\\w)(\\1+)`)
+	printResult(result, chunk, "Longest repeat  ")
 }
 
 type byLength []string
