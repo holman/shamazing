@@ -74,7 +74,9 @@ func main() {
 
 	result, chunk := findResult(commits, "[a-f]+")
 	printResult(result, chunk, "Longest string           ")
-	// printResult(commitFromOid(result), "Longest integer          ")
+
+	result, chunk = findResult(commits, "[0-9]+")
+	printResult(result, chunk, "Longest integer          ")
 	// printResult(commitFromOid(result), "Longest repeating segment")
 }
 
