@@ -53,10 +53,32 @@ func commitFromOid(sha string) *git.Commit {
 	return commit
 }
 
-func printResult(commit *git.Commit) {
+// Search through all the commits for a regex.
+func findResult(commits []string, regex string) string {
+	var longestChunk string
+	var longestMatch string
+
+	for i := 0; i < len(commits); i++ {
+		// find all string-based parts of the sha
+		strings := regexp.MustCompile(regex).FindAllString(commits[i], -1)
+		sort.Sort(byLength(strings))
+
+		// prefer the oldest sha to the newest (i.e., the `<=`)
+		if len(longestChunk) <= len(strings[0]) {
+			longestMatch = commits[i]
+			longestChunk = strings[0]
+		}
+	}
+
+	return longestMatch
+}
+
+func printResult(commit *git.Commit, label string) {
 	const dateLayout = "January 1, 2006"
-	fmt.Println(commit.Author().Name,
-		commit.Author().When.Format(dateLayout))
+	name := commit.Author().Name
+	date := commit.Author().When.Format(dateLayout)
+
+	fmt.Printf("%s  %s\t%s\t%s\n", label, commit.Id(), name, date)
 }
 
 func main() {
@@ -68,15 +90,10 @@ func main() {
 
 	commits := repoCommits()
 
-	fmt.Print("Longest string: ")
-	longest := findLongestString(commits)
-	fmt.Println(longest)
-
-	printResult(commitFromOid(longest))
-
-	fmt.Print("Longest integer: ")
-
-	fmt.Print("Longest repeating segment: ")
+	result := findResult(commits, "[a-f]+")
+	printResult(commitFromOid(result), "Longest string           ")
+	printResult(commitFromOid(result), "Longest integer          ")
+	printResult(commitFromOid(result), "Longest repeating segment")
 }
 
 type byLength []string
