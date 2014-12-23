@@ -31,9 +31,10 @@ func commitFromOid(sha string) *git.Commit {
 func findResult(regex string) (string, string) {
 	var longestChunk string
 	var longestMatch string
+	compiledRegex := regexp.MustCompile(regex)
 
 	for i := 0; i < len(commits); i++ {
-		strings := regexp.MustCompile(regex).FindAllString(commits[i], -1)
+		strings := compiledRegex.FindAllString(commits[i], -1)
 		sort.Sort(byLength(strings))
 
 		// prefer the oldest sha to the newest (i.e., the `<=`)
