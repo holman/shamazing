@@ -15,12 +15,6 @@ var commits []string
 
 // Grab all the commits for a given repository.
 func repoCommits() []string {
-	head, _ := repo.Head()
-	walk, _ := repo.Walk()
-	oid := head.Target()
-
-	walk.Push(oid)
-
 	out, _ := exec.Command("git", "rev-list", "--all").Output()
 	oids := strings.Split(string(out), "\n")
 
