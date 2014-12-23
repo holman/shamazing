@@ -4,8 +4,10 @@ import (
 	"fmt"
 	"os/exec"
 	"regexp"
+	"runtime"
 	"sort"
 	"strings"
+	"sync"
 
 	"github.com/libgit2/git2go"
 )
@@ -60,14 +62,28 @@ func printResult(sha string, chunk string, label string) {
 }
 
 func main() {
+	cores := runtime.NumCPU()
+	runtime.GOMAXPROCS(cores)
+
 	repo, _ = git.OpenRepository(".")
 	commits = repoCommits()
 
-	result, chunk := findResult("[a-f]+")
-	printResult(result, chunk, "Longest string  ")
+	var wg sync.WaitGroup
+	wg.Add(2)
 
-	result, chunk = findResult("[0-9]+")
-	printResult(result, chunk, "Longest integer ")
+	go func() {
+		result, chunk := findResult("[a-f]+")
+		printResult(result, chunk, "Longest string  ")
+		wg.Done()
+	}()
+
+	go func() {
+		result, chunk := findResult("[0-9]+")
+		printResult(result, chunk, "Longest integer ")
+		wg.Done()
+	}()
+
+	wg.Wait()
 }
 
 type byLength []string
