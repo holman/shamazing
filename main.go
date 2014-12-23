@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"os/exec"
 	"regexp"
 	"sort"
 	"strings"
@@ -20,12 +21,8 @@ func repoCommits() []string {
 
 	walk.Push(oid)
 
-	oids := []string{}
-
-	walk.Iterate(func(commit *git.Commit) bool {
-		oids = append(oids, commit.Id().String())
-		return true
-	})
+	out, _ := exec.Command("git", "rev-list", "--all").Output()
+	oids := strings.Split(string(out), "\n")
 
 	return oids
 }
