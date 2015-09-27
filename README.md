@@ -11,11 +11,13 @@ It's **sha**-mazing. Almost as shamazing as that pun.
 
 ## Install
 
-    gem install shamazing
+
+
+## Development
+
+If you'd like to hack on shamazing and add something neato or fix something that's lame-o, make sure you have [Go installed](https://golang.org), and then [install libgit2](https://github.com/libgit2/libgit2) — on OS X, this might be as easy for you as `brew install libgit2`.
 
 ## Usage
-
-### Command Line Interface
 
 ```sh
 $ shamazing 9c2cddfaedaea9689a22e37aaa20191041554fe8
@@ -50,36 +52,6 @@ $ shamazing --full
 Longest string: 17705a5a37fbd11017f0d5e053b474dabbbd4022
 Longest integer: 0c4b61fc2c5e7dd5566d42d0de1c431984899ddf
 Longest repeating: 17705a5a37fbd11017f0d5e053b474dabbbd4022
-```
-
-### Ruby Interface
-
-```ruby
-require 'shamazing'
-
-sha = '9c2cddfaedaea9689a22e37aaa20191041554fe8'
-
-Shamazing.string(sha)
-# => cddfaedaea
-
-Shamazing.integer(sha)
-# => 20191041554
-
-Shamazing.repeating(sha)
-# => aaa
-
-shas = %w(
-  fdb31214c2cca29e4f723ad676cddb043bd73986
-  0c4b61fc2c5e7dd5566d42d0de1c431984899ddf
-  9c2cddfaedaea9689a22e37aaa20191041554fe8
-  f1b4c270f6746cbfff99bbf0f5a2388f4e509943
-)
-Shamazing.string_from_array(shas)
-# => cddfaedaea
-Shamazing.integer_from_array(shas)
-# => 20191041554
-Shamazing.repeating_from_array(shas)
-# => fff
 ```
 
 ## An Holman Project
